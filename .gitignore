@@ -1,0 +1,14 @@
+# Excel 
+*.csv
+*.xlsx
+
+# PDF
+*.pdf
+
+#Python
+__pycache__/
+
+# Editors
+.vscode/
+.idea/
+.vs/
