@@ -38,9 +38,7 @@ def Graficar(data):
     plt.stem(freq,abs(fft.real),markerfmt=" ")
     plt.show()
     
-
-
-    
+   
 path = 'D:\\Leo\\Facultad\\Trabajos\\3º Año\\Metodos Numericos II\\Metodos-Numericos-II\\TP3\\'
 file1 = path +  'muestra1.csv'
 file2 = path + 'muestra2.csv'
@@ -51,7 +49,10 @@ muestra2 = LeerCSV(file2)
 #print("------------------------")
 #print(muestra2)
 
+print("GRAFICOS MUESTRA 1")
 Graficar(muestra1)
+print("------------------------")
+print("GRAFICOS MUESTRA 2")
 Graficar(muestra2)
 
 
