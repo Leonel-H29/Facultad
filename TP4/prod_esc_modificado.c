@@ -2,17 +2,15 @@
 #include <math.h>
 #include <mpi.h>
 #include <time.h>
-#include <vector>
+//#include <vector>
 
 int prod_vectorial(int v1[], int v2[], int a, int b);
 
-int main(int argc, char **argv)
-{
-    vector<long> VectorALocal, VectorBLocal;
-
+int	main(int argc,	char** argv)	
+{	
+		
 	int arre1[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30}; 
-	int arre2[] = {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60}; 
-
+	int arre2[] = {2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60}; 	
 	int tama = sizeof(arre1)/4;
 	
 	int dest = 0; //Proceso que realizara las sumas
@@ -36,49 +34,18 @@ int main(int argc, char **argv)
 	nva_a = ID_Proceso * cant_pasos;
 	nva_b = (ID_Proceso + 1) * cant_pasos;
 
-	VectorALocal.resize(cant_pasos, 0);
-    VectorBLocal.resize(cant_pasos, 0);
+
+	MPI_Scatter	(arre1,	cant_pasos,	MPI_DOUBLE,	arre1,	cant_pasos,	MPI_DOUBLE,	0,MPI_COMM_WORLD);	
+	MPI_Scatter	(arre2,	cant_pasos,	MPI_DOUBLE,	arre2,	cant_pasos,	MPI_DOUBLE,	0,MPI_COMM_WORLD);	
 	
-
-	 // Repartimos los valores del vector A
-    MPI_Scatter(&arre1[0], // Valores a compartir
-            cant_pasos, // Cantidad que se envia a cada proceso
-            MPI_LONG, // Tipo del dato que se enviara
-            &VectorALocal[0], // Variable donde recibir los datos
-            cant_pasos, // Cantidad que recibe cada proceso
-            MPI_LONG, // Tipo del dato que se recibira
-            0,  // proceso principal que reparte los datos
-            MPI_COMM_WORLD); // Comunicador (En este caso, el global)
-    // Repartimos los valores del vector B
-    MPI_Scatter(&VectorB[0],
-            cant_pasos,
-            MPI_LONG,
-            &VectorBLocal[0],
-            cant_pasos,
-            MPI_LONG,
-            0,
-            MPI_COMM_WORLD);
-
 	resultado_i = prod_vectorial(arre1, arre2, nva_a, nva_b);
-	
-	printf("Soy el proceso %d y mi suma es %d\n", ID_Proceso, resultado_i);
+	printf("Soy el proceso %d y mi suma es %d\n", ID_Proceso, resultado_i);	
+	MPI_Reduce	(&resultado_i,&resultado_t,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
-		
-	
-	if(ID_Proceso == 0){
-		resultado_t = resultado_i;
-		for (i = 1; i < TotalProcesos; i++){
-			MPI_Recv(&resultado_i, 1, MPI_INT, i, tag, MPI_COMM_WORLD, &status);
-			resultado_t = resultado_t + resultado_i;
-		}
-
-		printf("\n El resultado es %d \n", resultado_t);
-	}
-
-	else
-		MPI_Send(&resultado_i, 1, MPI_INT, dest, tag, MPI_COMM_WORLD);
-	
-	MPI_Finalize();
+	if	(myid	==	0)  printf("\n El resultado es %d \n", resultado_t);	
+	//free	(a);	
+	//free	(b);	
+	MPI_Finalize();		
 	return 0;
 }
 
