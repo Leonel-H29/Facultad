@@ -35,8 +35,8 @@ int	main(int argc,	char** argv)
 	nva_b = (ID_Proceso + 1) * cant_pasos;
 
 
-	MPI_Scatter	(arre1,	cant_pasos,	MPI_DOUBLE,	arre1,	cant_pasos,	MPI_DOUBLE,	0,MPI_COMM_WORLD);	
-	MPI_Scatter	(arre2,	cant_pasos,	MPI_DOUBLE,	arre2,	cant_pasos,	MPI_DOUBLE,	0,MPI_COMM_WORLD);	
+	MPI_Scatter	(arre1,	cant_pasos,	MPI_INTEGER, arre1,	cant_pasos,	MPI_INTEGER,0,MPI_COMM_WORLD);	
+	MPI_Scatter	(arre2,	cant_pasos,	MPI_INTEGER, arre2,	cant_pasos,	MPI_INTEGER,0,MPI_COMM_WORLD);	
 	
 	resultado_i = prod_vectorial(arre1, arre2, nva_a, nva_b);
 	printf("Soy el proceso %d y mi suma es %d\n", ID_Proceso, resultado_i);	
