@@ -42,7 +42,7 @@ int	main(int argc,	char** argv)
 	printf("Soy el proceso %d y mi suma es %d\n", ID_Proceso, resultado_i);	
 	MPI_Reduce	(&resultado_i,&resultado_t,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
 
-	if	(myid	==	0)  printf("\n El resultado es %d \n", resultado_t);	
+	if	(ID_Proceso	==	0)  printf("\n El resultado es %d \n", resultado_t);	
 	//free	(a);	
 	//free	(b);	
 	MPI_Finalize();		
