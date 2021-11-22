@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 {
 	/* code */
 	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p, my_rank;
-	float resultado, local_a , local_b, integral , total, h;
+	float resultado, local_a , local_b, resultado , total, h;
 
    	MPI_Status status;
 
@@ -31,13 +31,13 @@ int main(int argc, char **argv)
     printf("Soy el proceso %d y mi suma es %f\n", my_rank, resultado);    
     
     if(my_rank==0) {
-        total=integral;
+        total=resultado;
         for(source=1;source<p;source++) {
-             MPI_Recv(&integral,1,MPI_FLOAT,source,tag,MPI_COMM_WORLD,&status);
-            total+=integral;
+             MPI_Recv(&resultado,1,MPI_FLOAT,source,tag,MPI_COMM_WORLD,&status);
+            total+=resultado;
         };
         printf("With n= %d trapezoides\n la estimacion",n);
-        printf("de la integral entre %d y %d\n es= %f \n",a,b,total);
+        printf("de la resultado entre %d y %d\n es= %f \n",a,b,total);
     } else {
         MPI_Send(&resultado,1,MPI_FLOAT,dest,tag,MPI_COMM_WORLD);
     };
