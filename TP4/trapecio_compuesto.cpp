@@ -6,21 +6,20 @@
 #define MAX 10
 
 float funcion(float x);
-float TrapecioCompuesto(int a, int b);
+float TrapecioCompuesto(int a, int b,  int n, float h);
 
 
-int main(int argc, char const *argv[])
+int main(int argc, char **argv[])
 {
 	/* code */
 	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p;
 	float resultado, local_a , local_b, integral , total, h;
 
-	//int my_id, nproc, tag = 1, source;
    	MPI_Status status;
 
-   	MPI_Init(&argc, &argv);
-   	MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
-   	MPI_Comm_size(MPI_COMM_WORLD, &nproc);
+   	MPI_Init(&argc,&argv);
+    MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
+    MPI_Comm_size(MPI_COMM_WORLD,&p);
 
 	h = (b-a)/n;
 	local_n=n/p;
