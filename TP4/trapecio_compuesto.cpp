@@ -12,8 +12,8 @@ float TrapecioCompuesto(int a, int b);
 int main(int argc, char const *argv[])
 {
 	/* code */
-	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50;
-	float resultado, local_a , local_b, integral , total;
+	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p;
+	float resultado, local_a , local_b, integral , total, h;
 
 	int my_id, nproc, tag = 1, source;
    	MPI_Status status;
@@ -21,13 +21,13 @@ int main(int argc, char const *argv[])
    	MPI_Init(&argc, &argv);
    	MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
    	MPI_Comm_size(MPI_COMM_WORLD, &nproc);
-	
+
+	h = (b-a)/n;
 	local_n=n/p;
     
     local_a=a+my_rank*local_n*h ; 
     local_b=local_a+local_n*h;
     
-    //integral=trapecio(local_a,local_b,local_n,h);
     resultado = TrapecioCompuesto(a,b, local_n);
     printf("Soy el proceso %d y mi suma es %f\n", my_rank, resultado);    
     
@@ -51,8 +51,8 @@ float funcion(float x){
 	return sqrt(x);
 }
 
-float TrapecioCompuesto(int a, int b, int n){
-	int h = (int)((b-a)/h);
+float TrapecioCompuesto(int a, int b, int n, float h){
+	
 	float sumatoria = 0;
 
 	for (int i = 1; i < n; ++i)
