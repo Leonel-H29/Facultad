@@ -12,7 +12,7 @@ float TrapecioCompuesto(int a, int b,  int n, float h);
 int main(int argc, char **argv[])
 {
 	/* code */
-	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p;
+	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p, my_rank;
 	float resultado, local_a , local_b, integral , total, h;
 
    	MPI_Status status;
@@ -27,7 +27,7 @@ int main(int argc, char **argv[])
     local_a=a+my_rank*local_n*h ; 
     local_b=local_a+local_n*h;
     
-    resultado = TrapecioCompuesto(a,b, local_n);
+    resultado = TrapecioCompuesto(a,b, local_n,h);
     printf("Soy el proceso %d y mi suma es %f\n", my_rank, resultado);    
     
     if(my_rank==0) {
