@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	
 	if(ID_Proceso == 0){		
 		if(cant_pasos*TotalProcesos<tama){
-            resultado_i += prod_vectorial(arre1, arre2, cant_pasosTotalProcesos, tama);
+            resultado_i += prod_vectorial(arre1, arre2, cant_pasos*TotalProcesos, tama);
         }
         resultado_t = resultado_i;
 		for (i = 1; i < TotalProcesos; i++){
