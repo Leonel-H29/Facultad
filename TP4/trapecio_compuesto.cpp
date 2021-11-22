@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
 	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p;
 	float resultado, local_a , local_b, integral , total, h;
 
-	int my_id, nproc, tag = 1, source;
+	//int my_id, nproc, tag = 1, source;
    	MPI_Status status;
 
    	MPI_Init(&argc, &argv);
