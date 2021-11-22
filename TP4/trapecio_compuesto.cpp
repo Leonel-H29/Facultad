@@ -47,7 +47,8 @@ int main(int argc, char **argv)
 }
 
 float funcion(float x){
-	return sqrt(x);
+	//return sqrt(x);
+	return x*2;
 }
 
 float TrapecioCompuesto(int a, int b, int n, float h){
