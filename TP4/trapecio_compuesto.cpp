@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 {
 	/* code */
 	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p, my_rank;
-	float resultado, local_a , local_b, resultado , total, h;
+	float resultado, local_a , local_b , total, h;
 
    	MPI_Status status;
 
