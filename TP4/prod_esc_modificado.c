@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 	printf("Soy el proceso %d y mi suma es %d\n", ID_Proceso, resultado_i);	
 	
 	if(ID_Proceso == 0){		
-		if(cant_pasosTotalProcesos<tama){
+		if(cant_pasos*TotalProcesos<tama){
             resultado_i += prod_vectorial(arre1, arre2, cant_pasosTotalProcesos, tama);
         }
         resultado_t = resultado_i;
