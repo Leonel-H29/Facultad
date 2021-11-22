@@ -9,7 +9,7 @@ float funcion(float x);
 float TrapecioCompuesto(int a, int b,  int n, float h);
 
 
-int main(int argc, char **argv[])
+int main(int argc, char **argv)
 {
 	/* code */
 	int a = 0, b=60, n=1000 , local_n , source , dest=0 , tag=50, p, my_rank;
@@ -37,7 +37,7 @@ int main(int argc, char **argv[])
             total+=integral;
         };
         printf("With n= %d trapezoides\n la estimacion",n);
-        printf("de la integral entre %f y %f\n es= %f \n",a,b,total);
+        printf("de la integral entre %d y %d\n es= %f \n",a,b,total);
     } else {
         MPI_Send(&resultado,1,MPI_FLOAT,dest,tag,MPI_COMM_WORLD);
     };
