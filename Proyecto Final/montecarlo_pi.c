@@ -1,3 +1,9 @@
+/*
+Metodo de Montecarlo para estimar el valor de PI
+Author: Herrera, Leonel Esteban
+*/
+
+
 #include <math.h>
 #include <limits.h>
 #include <mpi.h>
