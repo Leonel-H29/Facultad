@@ -136,6 +136,6 @@ int main(int argc, char **argv) {
 			
 		if (myid<server) MPI_Comm_free(&workers);
 
-		printf("Numero de procesos: %d\n", numprocs );
+		//printf("Numero de procesos: %d\n", numprocs );
 		MPI_Finalize();
 }
