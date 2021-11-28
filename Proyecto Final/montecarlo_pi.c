@@ -9,9 +9,9 @@ Author: Herrera, Leonel Esteban
 #include <mpi.h>
 #include <stdio.h>
 #include <stdlib.h>
-/* no. of random nos. to generate at one time */
+/*Numero de numeros ramdon para generar a la vez*/
 #define CHUNKSIZE 1000
-/* message tags */
+/* Etiquetas de mensajes */
 #define REQUEST 1
 #define REPLY 2
 int main(int argc, char **argv) {
@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
 	server = numprocs-1;
 
 	if (numprocs==1)
-		printf("Error. At least 2 nodes are needed");
-	/* process 0 reads epsilon from args and broadcasts it toeveryone */
+		printf("Error. Al menos 2 nodos se necesitan");
+	/*El proceso 0 lee el epsilon desde los argumentos y los transmite a todos*/
 
 	if (myid == 0) {
 		if (argc<2) {
@@ -43,18 +43,20 @@ int main(int argc, char **argv) {
 		}
 	}
 	MPI_Bcast ( &epsilon, 1, MPI_DOUBLE, 0,MPI_COMM_WORLD );
-	/* define the workers communicator by using groups and
-	excluding the server from the group of the whole world */
+	/* definir el comunicador de los trabajadores mediante el uso de grupos y
+	excluyendo al servidor del grupo de todo el mundo */
+
 	MPI_Comm_group ( world, &world_group );
 	ranks[0] = server;
 	MPI_Group_excl ( world_group, 1, ranks, &worker_group );
 	MPI_Comm_create ( world, worker_group, &workers);
 	MPI_Group_free ( &worker_group);
 
-	/* the random number server code - receives a non-zero
-	request, generates random numbers into the array rands,
-	and passes them back to the process who sent the
-	request. */
+	/*
+	El codigo del servidor del numero aleatorio - recibe una solicitud no nula,
+	genera numeros aleatorios dentro del los intervalos del arreglo y los devuelve
+	al proceso quien envia la solicitud
+	*/
 
 	if ( myid == server ) {
 		do {
@@ -66,23 +68,25 @@ int main(int argc, char **argv) {
 				stat.MPI_SOURCE, REPLY, world);
 			}
 		} while ( request > 0 );
-		/* the code for the worker processes - each one sends a
-		request for random numbers from the server, receives
-		and processes them, until done */
+		/*
+		El codigo de los procesos de los trabajadores - cada uno envia
+		una solicitud de numeros aleatorios desde el servidor, reciben y procesan
+		estas, hasta terminar
+		*/
 	} 
 	else {
 		request = 1;
 		done = in = out = 0;
 		max = INT_MAX;
-		/* send first request for random numbers */
+		/*Envia la primer solicitud de numeros aleatorios*/
 		MPI_Send( &request, 1, MPI_INT, server, REQUEST, world );
-		/* all workers get a rank within the worker group */
+		/* Todos los trabajadores obtienen un rango dentro del grupo de trabajadores*/
 		MPI_Comm_rank ( workers, &workerid );
 		iter = 0;
 		while (!done) {
 			iter++;
 			request = 1;
-			/* receive the chunk of random numbers */
+			/*Recibe las partes de los numeros aleatorios*/
 			MPI_Recv(rands, CHUNKSIZE, MPI_INT, server,
 			REPLY, world, &stat );
 			for (i=0; i<CHUNKSIZE; ) {
@@ -93,19 +97,24 @@ int main(int argc, char **argv) {
 				else
 					out++;
 			}
-			/* the value of in is sent to the variable totalin in
-			all processes in the workers group */
+			/*
+			El valor de in se envia a la variable totalin en todos los
+			procesos del grupo de trabajadores
+			*/
 			MPI_Allreduce(&in, &totalin, 1,MPI_INT, MPI_SUM, workers);
 			MPI_Allreduce(&out, &totalout, 1,MPI_INT, MPI_SUM, workers);
 			Pi = (4.0*totalin)/(totalin + totalout);
 			error = fabs ( Pi - M_PI);
 			done = ((error < epsilon) || ((totalin+totalout)>1000000));
 			request = (done) ? 0 : 1;
-			/* if done, process 0 sends a request of 0 to stop the
-			rand server, otherwise, everyone requests more
-			random numbers. */
+
+			/*
+			Si se hace, el proceso 0 envia una solicitud de 0 a parar el
+			 servidor rand, caso contrario, todos solicitan mas numeros aleatorios
+			*/
 			if (myid == 0) {
-				printf("pi = %23.20lf\n", Pi );
+				/*Muestro el valor aproximado de pi*/
+				printf("Valor aproximado de pi = %23.20lf\n", Pi );
 				MPI_Send( &request, 1, MPI_INT, server, REQUEST, world);
 			} 
 			else {
@@ -115,8 +124,14 @@ int main(int argc, char **argv) {
 			}
 		}
 		if (myid == 0)
-			printf("total %d, in %d, out %d\n",
+			/*
+			Muestro el total de puntos obtenidos, mas los que estan dentro
+			como fuera del circulo
+			*/
+			printf("Total de puntos:  %d,\n Dentro: %d,\n Fuera: %d\n",
 			totalin+totalout, totalin, totalout );
+
+			printf("Numero de procesos: %d\n", numprocs );
 		if (myid<server) MPI_Comm_free(&workers);
 		MPI_Finalize();
 }
