@@ -3,7 +3,8 @@
 #include <math.h>
 #include <string.h>
 #include <mpi.h>
-main(int argc, char** argv)
+
+int main(int argc, char** argv)
 {
         // Definiciones 
         double x,y,z,pi;
