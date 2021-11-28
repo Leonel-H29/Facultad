@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 	MPI_Comm_rank(world, &myid);
 	server = numprocs-1;
 
-	printf("Numero de procesos: %d\n", numprocs );
+	//printf("Numero de procesos: %d\n", numprocs );
 
 	if (numprocs==1)
 		printf("Error. Al menos 2 nodos se necesitan");
@@ -135,5 +135,7 @@ int main(int argc, char **argv) {
 
 			
 		if (myid<server) MPI_Comm_free(&workers);
+
+		printf("Numero de procesos: %d\n", numprocs );
 		MPI_Finalize();
 }
