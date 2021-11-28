@@ -30,6 +30,8 @@ int main(int argc, char **argv) {
 	MPI_Comm_rank(world, &myid);
 	server = numprocs-1;
 
+	printf("Numero de procesos: %d\n", numprocs );
+
 	if (numprocs==1)
 		printf("Error. Al menos 2 nodos se necesitan");
 	/*El proceso 0 lee el epsilon desde los argumentos y los transmite a todos*/
@@ -131,7 +133,7 @@ int main(int argc, char **argv) {
 			printf("Total de puntos:  %d,\n Dentro: %d,\n Fuera: %d\n",
 			totalin+totalout, totalin, totalout );
 
-			printf("Numero de procesos: %d\n", numprocs );
+			
 		if (myid<server) MPI_Comm_free(&workers);
 		MPI_Finalize();
 }
