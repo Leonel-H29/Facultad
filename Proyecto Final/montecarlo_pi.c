@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 {
         // Definiciones 
         double x,y,z,pi;
-        int i,count = 0,mycount,iterations = 100000;
+        int i,count = 0,mycount,iterations = 100;
         int rank,size,proc;
         MPI_Status status;
         // Iniciar MPI
